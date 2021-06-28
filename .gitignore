@@ -65,7 +65,7 @@ tmp/**/*
 /build
 import-summary.txt
 /captures
-/build
+build
 
 # secrets files
 apikey.properties
