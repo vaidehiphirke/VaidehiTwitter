@@ -9,6 +9,7 @@ import java.util.List;
 
 public class Tweet {
 
+    public static final int MAX_TWEET_LENGTH = 280;
     public String body;
     public String createdAt;
     public User user;
