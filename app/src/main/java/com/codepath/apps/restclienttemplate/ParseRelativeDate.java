@@ -25,11 +25,11 @@ public class ParseRelativeDate {
             long now = System.currentTimeMillis();
 
             final long diff = now - time;
-            if (diff < 2 * MINUTE_MILLIS) {
+            if (diff < MINUTE_MILLIS) {
                 return TWITTER_TIME_DOT + diff / SECOND_MILLIS + "s";
             }  else if (diff < 50 * MINUTE_MILLIS) {
                 return TWITTER_TIME_DOT + diff / MINUTE_MILLIS + "m";
-            } else if (diff < 48 * HOUR_MILLIS) {
+            } else if (diff < 24 * HOUR_MILLIS) {
                 return TWITTER_TIME_DOT + diff / HOUR_MILLIS + "h";
             } else {
                 return TWITTER_TIME_DOT + diff / DAY_MILLIS + "d";
