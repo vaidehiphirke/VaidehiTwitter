@@ -71,18 +71,22 @@ public class ComposeActivity extends AppCompatActivity {
                                 Intent intent = new Intent();
                                 intent.putExtra("tweet", Parcels.wrap(tweet));
                                 setResult(RESULT_OK,intent);
-                                finish(); //todo this isn't closing the activity
+                                finish();//todo this isn't closing the activity
                             } catch (JSONException e) {
+                                Log.i(TAG, "Published tweet says " + e);
                                 e.printStackTrace();
                             }
                         }
 
                         @Override
                         public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
-                            Log.i(TAG, "onFailure publishing tweet", throwable);
+                            Log.i(TAG, "onFailure publishing tweet" + response, throwable);
                         }
+
+
                     });
                 }
+                //ComposeActivity.this.finish();
             }
         });
     }

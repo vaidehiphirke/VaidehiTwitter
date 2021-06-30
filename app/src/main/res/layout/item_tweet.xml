@@ -23,7 +23,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginStart="5dp"
         android:layout_toEndOf="@+id/ivProfileImage"
-        tools:text="@vaidehi" />
+        tools:text="vaidehi" />
 
     <TextView
         android:id="@+id/tvBody"
@@ -46,4 +46,15 @@
         android:layout_marginEnd="160dp"
         android:layout_toEndOf="@+id/tvScreenName"
         android:text="TextView" />
+
+    <ImageView
+        android:id="@+id/ivTweetMedia"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvBody"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="17dp"
+        android:adjustViewBounds="true"
+        tools:srcCompat="@tools:sample/avatars" />
 </RelativeLayout>
