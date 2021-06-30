@@ -5,6 +5,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -39,6 +40,8 @@ public class TimelineActivity extends AppCompatActivity {
 
     ActivityTimelineBinding timelineBinding;
 
+    private SwipeRefreshLayout swipeContainer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,15 +50,36 @@ public class TimelineActivity extends AppCompatActivity {
 
         client = TwitterApplication.getRestClient(this);
 
-        rvTweets = findViewById(R.id.rvTweets);
+        rvTweets = timelineBinding.rvTweets;
         tweets=new ArrayList<>();
         adapter = new TweetsAdapter(this, tweets);
 
         rvTweets.setLayoutManager(new LinearLayoutManager(this));
         rvTweets.setAdapter(adapter);
 
+
+        swipeContainer = timelineBinding.swipeContainer;
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                populateHomeTimeline();
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+
+
         populateHomeTimeline();
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -91,11 +115,16 @@ public class TimelineActivity extends AppCompatActivity {
                 Log.i(TAG,"onSuccess");
                 JSONArray jsonArray = json.jsonArray;
                 try {
+                    adapter.clear();
+
                     tweets.addAll(Tweet.fromJsonArray(jsonArray));
                     adapter.notifyDataSetChanged();
+
+                    swipeContainer.setRefreshing(false);
                 } catch (JSONException e) {
                     Log.e(TAG,"Json exception", e);
                 }
+
             }
 
             @Override
