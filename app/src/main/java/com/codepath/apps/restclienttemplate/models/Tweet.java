@@ -13,11 +13,14 @@ import java.util.List;
 @Parcel
 public class Tweet {
 
+    //public for parceler
     public static final int MAX_TWEET_LENGTH = 280;
     public String body;
     public String createdAt;
     public User user;
     public String mediaDisplayUrl;
+    public long id;
+
 
     //empty constructor needed for Parceler
     public Tweet() {
@@ -29,6 +32,7 @@ public class Tweet {
         tweet.createdAt = jsonObject.getString("created_at");
         tweet.user = User.fromJson(jsonObject.getJSONObject("user"));
         tweet.mediaDisplayUrl = null;
+        tweet.id = jsonObject.getLong("id");
         JSONObject entities = jsonObject.getJSONObject("entities");
         if(entities.has("media")){
             JSONArray media = entities.getJSONArray("media");
@@ -44,5 +48,9 @@ public class Tweet {
             tweets.add(fromJson(jsonArray.getJSONObject(i)));
         }
         return tweets;
+    }
+
+    public long getId() {
+        return id;
     }
 }

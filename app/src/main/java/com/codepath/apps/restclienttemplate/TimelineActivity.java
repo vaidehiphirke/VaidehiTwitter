@@ -51,7 +51,6 @@ public class TimelineActivity extends AppCompatActivity {
 
         client = TwitterApplication.getRestClient(this);
 
-        //todo logo and button
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("  Your Timeline");
         actionBar.setDisplayShowHomeEnabled(true);
@@ -62,7 +61,8 @@ public class TimelineActivity extends AppCompatActivity {
         tweets=new ArrayList<>();
         adapter = new TweetsAdapter(this, tweets);
 
-        rvTweets.setLayoutManager(new LinearLayoutManager(this));
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        rvTweets.setLayoutManager(linearLayoutManager);
         rvTweets.setAdapter(adapter);
 
         //swipe to refresh
@@ -81,10 +81,36 @@ public class TimelineActivity extends AppCompatActivity {
 
         //infinite scroll
 
-
+        EndlessRecyclerViewScrollListener scrollListener = new EndlessRecyclerViewScrollListener(linearLayoutManager) {
+            @Override
+            public void onLoadMore(int page, int totalItemsCount, RecyclerView view) {
+                loadMoreTweets();
+            }
+        };
+        rvTweets.addOnScrollListener(scrollListener);
 
 
         populateHomeTimeline();
+    }
+
+    private void loadMoreTweets() {
+        client.getMoreTweets(tweets.get(tweets.size() - 1).getId(), new JsonHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Headers headers, JSON json) {
+                JSONArray jsonArray = json.jsonArray;
+                try {
+                    adapter.addAll(Tweet.fromJsonArray(jsonArray));
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
+
+            }
+        });
     }
 
 
