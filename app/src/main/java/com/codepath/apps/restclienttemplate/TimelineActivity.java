@@ -2,6 +2,7 @@ package com.codepath.apps.restclienttemplate;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,10 +34,10 @@ public class TimelineActivity extends AppCompatActivity {
 
     public static final String TAG = "TimelineActivity";
 
-    TwitterClient client;
-    RecyclerView rvTweets;
-    List<Tweet> tweets;
-    TweetsAdapter adapter;
+    private TwitterClient client;
+    private RecyclerView rvTweets;
+    private List<Tweet> tweets;
+    private TweetsAdapter adapter;
 
     ActivityTimelineBinding timelineBinding;
 
@@ -50,6 +51,13 @@ public class TimelineActivity extends AppCompatActivity {
 
         client = TwitterApplication.getRestClient(this);
 
+        //todo logo and button
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("  Your Timeline");
+        actionBar.setDisplayShowHomeEnabled(true);
+        actionBar.setLogo(R.drawable.twitter_32);
+        actionBar.setDisplayUseLogoEnabled(true);
+
         rvTweets = timelineBinding.rvTweets;
         tweets=new ArrayList<>();
         adapter = new TweetsAdapter(this, tweets);
@@ -57,16 +65,12 @@ public class TimelineActivity extends AppCompatActivity {
         rvTweets.setLayoutManager(new LinearLayoutManager(this));
         rvTweets.setAdapter(adapter);
 
-
+        //swipe to refresh
         swipeContainer = timelineBinding.swipeContainer;
         swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 populateHomeTimeline();
-                // Your code to refresh the list here.
-                // Make sure you call swipeContainer.setRefreshing(false)
-                // once the network request has completed successfully.
-
             }
         });
         // Configure the refreshing colors
@@ -74,6 +78,9 @@ public class TimelineActivity extends AppCompatActivity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
+        //infinite scroll
+
 
 
 
