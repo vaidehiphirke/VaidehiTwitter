@@ -1,16 +1,19 @@
 <resources>
 
     <style name="AppBaseTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!--
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        -->
+        <item name = "android:backgroundTint">@android:color/white</item>
     </style>
 
-    <!-- Application theme. -->
+    <!-- Application theme -->
     <style name="AppTheme" parent="AppBaseTheme">
-        <!-- All customizations that are NOT specific to a particular API-level can go here. -->
+        <item name="android:actionBarStyle">@style/ActionBar</item>
+        <item name="colorPrimary">@color/twitter_blue</item>
+        <item name="colorAccent">@color/twitter_blue</item>
+        <item name = "android:textColorPrimary">@android:color/primary_text_light</item>
+    </style>
+
+    <style name="ActionBar"> parent = "android:style/Widget.Light.ActionBar">
+        <item name= "android:background">@color/twitter_blue</item>
     </style>
 
 </resources>

@@ -10,5 +10,7 @@
     <string name="compose_label">Compose a Tweet</string>
     <string name="compose_error_empty">Sorry, your tweet cannot be empty.</string>
     <string name="compose_error_long">Sorry, your tweet is too long.</string>
+    <string name="login_title">Twitter</string>
+    <string name="timeline_title">Your Timeline</string>
 
 </resources>

@@ -1,6 +1,8 @@
 package com.codepath.apps.restclienttemplate;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.util.Log;
@@ -45,6 +47,8 @@ public class ComposeActivity extends AppCompatActivity {
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle(getString(R.string.compose_label));
+        actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ff1da1f2")));
+
 
         composeTextLayout = composeBinding.layoutEtCompose;
         composeText = composeBinding.etCompose;
