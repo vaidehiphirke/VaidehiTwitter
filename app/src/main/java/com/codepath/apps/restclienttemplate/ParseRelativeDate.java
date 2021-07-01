@@ -27,7 +27,7 @@ public class ParseRelativeDate {
             final long diff = now - time;
             if (diff < MINUTE_MILLIS) {
                 return TWITTER_TIME_DOT + diff / SECOND_MILLIS + "s";
-            }  else if (diff < 50 * MINUTE_MILLIS) {
+            }  else if (diff < 59 * MINUTE_MILLIS) {
                 return TWITTER_TIME_DOT + diff / MINUTE_MILLIS + "m";
             } else if (diff < 24 * HOUR_MILLIS) {
                 return TWITTER_TIME_DOT + diff / HOUR_MILLIS + "h";
