@@ -75,7 +75,7 @@ public class ComposeActivity extends AppCompatActivity {
                                 Intent intent = new Intent();
                                 intent.putExtra("tweet", Parcels.wrap(tweet));
                                 setResult(RESULT_OK,intent);
-                                finish();//todo this isn't closing the activity
+                                finish();
                             } catch (JSONException e) {
                                 Log.i(TAG, "Published tweet says " + e);
                                 e.printStackTrace();

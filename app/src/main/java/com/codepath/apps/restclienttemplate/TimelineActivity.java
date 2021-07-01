@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.util.Log;
@@ -19,6 +20,9 @@ import android.widget.Toast;
 
 import com.codepath.apps.restclienttemplate.databinding.ActivityTimelineBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
+import com.codepath.apps.restclienttemplate.models.TweetDao;
+import com.codepath.apps.restclienttemplate.models.TweetWithUser;
+import com.codepath.apps.restclienttemplate.models.User;
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler;
 
 import org.json.JSONArray;
@@ -38,6 +42,7 @@ public class TimelineActivity extends AppCompatActivity {
     private RecyclerView rvTweets;
     private List<Tweet> tweets;
     private TweetsAdapter adapter;
+    private TweetDao tweetDao;
 
     ActivityTimelineBinding timelineBinding;
 
@@ -50,6 +55,13 @@ public class TimelineActivity extends AppCompatActivity {
         setContentView(timelineBinding.getRoot());
 
         client = TwitterApplication.getRestClient(this);
+
+        tweetDao = ((TwitterApplication) getApplicationContext()).getMyDatabase().tweetDao();
+
+
+
+
+
 
         ActionBar actionBar = getSupportActionBar();
         actionBar.setTitle("  Your Timeline");
@@ -88,6 +100,19 @@ public class TimelineActivity extends AppCompatActivity {
             }
         };
         rvTweets.addOnScrollListener(scrollListener);
+
+        //query for existing tweets in DB
+
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                Log.i(TAG, "Showing data from database");
+                List<TweetWithUser> tweetWithUsers = tweetDao.recentItems();
+                List<Tweet> tweetsFromDB = TweetWithUser.getTweetList(tweetWithUsers);
+                adapter.clear();
+                adapter.addAll(tweetsFromDB);
+            }
+        });
 
 
         populateHomeTimeline();
@@ -150,11 +175,13 @@ public class TimelineActivity extends AppCompatActivity {
                 try {
                     adapter.clear();
                     //tweets.clear();
-
-                    tweets.addAll(Tweet.fromJsonArray(jsonArray));
+                    List<Tweet> tweetsFromNetwork = Tweet.fromJsonArray(jsonArray);
+                    tweets.addAll(tweetsFromNetwork);
                     adapter.notifyDataSetChanged();
 
                     swipeContainer.setRefreshing(false);
+
+                    savingDataIntoDatabase(tweetsFromNetwork);
                 } catch (JSONException e) {
                     Log.e(TAG,"Json exception", e);
                 }
@@ -164,6 +191,18 @@ public class TimelineActivity extends AppCompatActivity {
             @Override
             public void onFailure(int statusCode, Headers headers, String response, Throwable throwable) {
                 Log.i(TAG,"onFailure", throwable);
+            }
+        });
+    }
+
+    private void savingDataIntoDatabase(List<Tweet> tweetsFromNetwork) {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                Log.i(TAG, "Saving data into database");
+                List<User> usersFromNetwork = User.fromJsonTweetArray(tweetsFromNetwork);
+                tweetDao.insertModel(usersFromNetwork.toArray(new User[0]));
+                tweetDao.insertModel(tweetsFromNetwork.toArray(new Tweet[0]));
             }
         });
     }
