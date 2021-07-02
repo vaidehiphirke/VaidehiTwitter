@@ -5,30 +5,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.bitmap.CircleCrop;
+import com.codepath.apps.restclienttemplate.databinding.ItemTweetBinding;
 import com.codepath.apps.restclienttemplate.models.Tweet;
 
 import java.util.List;
 
 
-public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder>{
+public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
 
-    final Context context;
-    final List<Tweet> tweets;
+    private final Context context;
+    private final List<Tweet> tweets;
 
-    // Clean all elements of the recycler
     public void clear() {
         tweets.clear();
         notifyDataSetChanged();
     }
 
-    // Add a list of items -- change to type used
     public void addAll(List<Tweet> list) {
         tweets.addAll(list);
         notifyDataSetChanged();
@@ -42,13 +39,13 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_tweet,parent,false);
-        return new ViewHolder(view);
+        final ItemTweetBinding itemTweetBinding = ItemTweetBinding.inflate(LayoutInflater.from(context), parent, false);
+        return new ViewHolder(itemTweetBinding);
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Tweet tweet = tweets.get(position);
+        final Tweet tweet = tweets.get(position);
         holder.bind(tweet);
     }
 
@@ -57,37 +54,32 @@ public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder
         return tweets.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder {
 
-        final ImageView ivProfileImage;
-        final TextView tvBody;
-        final TextView tvScreenName;
-        final TextView tvRelativeTime;
-        final ImageView ivTweetMedia;
+        private final ItemTweetBinding itemTweetBinding;
 
-
-        public ViewHolder(@NonNull View itemView) {
-            super(itemView);
-            ivProfileImage = itemView.findViewById(R.id.ivProfileImage);
-            tvBody = itemView.findViewById(R.id.tvBody);
-            tvScreenName = itemView.findViewById(R.id.tvScreenName);
-            tvRelativeTime = itemView.findViewById(R.id.tvRelativeTime);
-            ivTweetMedia = itemView.findViewById(R.id.ivTweetMedia);
+        public ViewHolder(@NonNull ItemTweetBinding tweetBinding) {
+            super(tweetBinding.getRoot());
+            itemTweetBinding = tweetBinding;
         }
 
         public void bind(Tweet tweet) {
-            tvBody.setText(tweet.body);
-            tvScreenName.setText(tweet.user.screenName);
-            tvRelativeTime.setText(ParseRelativeDate.getRelativeTimeAgo(tweet.createdAt));
-            Glide.with(context).load(tweet.user.profileImageUrl).circleCrop().into(ivProfileImage);
-            if (tweet.mediaDisplayUrl != null) {
-                ivTweetMedia.setVisibility(View.VISIBLE);
-                Glide.with(context).load(tweet.mediaDisplayUrl).into(ivTweetMedia);
-            } else {
-                ivTweetMedia.setVisibility(View.GONE);
-            }
+            itemTweetBinding.tvBody.setText(tweet.body);
+            itemTweetBinding.tvScreenName.setText(tweet.user.name);
+            final String screenNameWithAt = "@" + tweet.user.screenName;
+            itemTweetBinding.tvUserName.setText(screenNameWithAt);
+            itemTweetBinding.tvRelativeTime.setText(ParseRelativeDate.getRelativeTimeAgo(tweet.createdAt));
+            Glide.with(context).load(tweet.user.profileImageUrl).circleCrop().into(itemTweetBinding.ivProfileImage);
+            setTweetMedia(itemTweetBinding.ivTweetMedia, tweet);
         }
+    }
 
-
+    private void setTweetMedia(ImageView ivTweetMedia, Tweet tweet) {
+        if (tweet.mediaDisplayUrl != null) {
+            ivTweetMedia.setVisibility(View.VISIBLE);
+            Glide.with(context).load(tweet.mediaDisplayUrl).into(ivTweetMedia);
+        } else {
+            ivTweetMedia.setVisibility(View.GONE);
+        }
     }
 }

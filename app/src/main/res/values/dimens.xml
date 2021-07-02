@@ -1,9 +1,15 @@
 <resources>
 
-    <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="small_inner_margin">5dp</dimen>
     <dimen name="large_tweet_margin">200dp</dimen>
+    <dimen name="smaller_inner_margin">2dp</dimen>
+    <dimen name="profile_pic_size">50dp</dimen>
+    <dimen name="med_inner_margin">10dp</dimen>
+    <dimen name="button_width">65dp</dimen>
+    <dimen name="rv_height_offset">30dp</dimen>
+    <dimen name="small_text_size">10sp</dimen>
+    <dimen name="login_margin">20dp</dimen>
 
 </resources>

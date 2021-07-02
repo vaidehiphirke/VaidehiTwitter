@@ -22,7 +22,7 @@
             android:layout_margin="@dimen/small_inner_margin"
             android:hint="@string/compose_hint"
             android:inputType="textMultiLine"
-            android:minLines="5"/>
+            android:minLines="5" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -33,5 +33,5 @@
         android:layout_below="@+id/layoutEtCompose"
         android:layout_centerHorizontal="true"
         android:layout_margin="@dimen/small_inner_margin"
-        android:text="@string/compose_button"/>
+        android:text="@string/compose_button" />
 </RelativeLayout>

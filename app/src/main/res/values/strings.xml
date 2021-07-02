@@ -12,5 +12,7 @@
     <string name="compose_error_long">Sorry, your tweet is too long.</string>
     <string name="login_title">Twitter</string>
     <string name="timeline_title">Your Timeline</string>
+    <string name="body_example">My tweet goes here!</string>
+    <string name="button_logout">LOG OUT</string>
 
 </resources>
