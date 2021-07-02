@@ -16,7 +16,6 @@ import com.codepath.apps.restclienttemplate.util.ParseRelativeDate;
 
 import java.util.List;
 
-
 public class TweetsAdapter extends RecyclerView.Adapter<TweetsAdapter.ViewHolder> {
 
     private final Context context;

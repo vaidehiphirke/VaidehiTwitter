@@ -33,16 +33,12 @@ public class ComposeActivity extends AppCompatActivity {
     private static final String TAG = "ComposeActivity";
 
     private EditText composeText;
-    private Button composeButton;
-    private TextInputLayout composeTextLayout;
     private TwitterClient client;
-
-    private ActivityComposeBinding composeBinding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        composeBinding = ActivityComposeBinding.inflate(getLayoutInflater());
+        final ActivityComposeBinding composeBinding = ActivityComposeBinding.inflate(getLayoutInflater());
         setContentView(composeBinding.getRoot());
 
         client = TwitterApplication.getRestClient(this);
@@ -51,9 +47,9 @@ public class ComposeActivity extends AppCompatActivity {
         actionBar.setTitle(getString(R.string.compose_label));
         actionBar.setBackgroundDrawable(new ColorDrawable(Color.parseColor("#ff1da1f2")));
 
-        composeTextLayout = composeBinding.layoutEtCompose;
+        final TextInputLayout composeTextLayout = composeBinding.layoutEtCompose;
         composeText = composeBinding.etCompose;
-        composeButton = composeBinding.btnCompose;
+        final Button composeButton = composeBinding.btnCompose;
 
         composeTextLayout.setCounterMaxLength(Tweet.MAX_TWEET_LENGTH);
 

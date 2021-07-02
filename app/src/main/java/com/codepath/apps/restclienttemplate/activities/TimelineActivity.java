@@ -69,7 +69,7 @@ public class TimelineActivity extends AppCompatActivity {
         tweets = new ArrayList<>();
         adapter = new TweetsAdapter(this, tweets);
 
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        final LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         rvTweets.setLayoutManager(linearLayoutManager);
         rvTweets.setAdapter(adapter);
 
@@ -175,7 +175,6 @@ public class TimelineActivity extends AppCompatActivity {
             Log.i(TAG, "onFailure home timeline" + throwable, throwable);
         }
     }
-
 
     private void savingDataIntoDatabase(List<Tweet> tweetsFromNetwork) {
         AsyncTask.execute(new Runnable() {
