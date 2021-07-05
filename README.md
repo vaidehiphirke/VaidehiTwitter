@@ -46,6 +46,8 @@ Here's a walkthrough of implemented user stories:
 
 <img src='walkthrough.gif' title='Video Walkthrough' width='370' alt='Video Walkthrough' />
 
+<img src='loginlogoutwalkthrough.gif' title='Login Walkthrough' width='370' alt='Login Walkthrough' />
+
 GIF created with [Kap](https://getkap.co/).
 
 ## Notes
